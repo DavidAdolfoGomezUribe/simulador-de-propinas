@@ -16,11 +16,12 @@ def desingMenuPrincipal():
     =============================================
     1. Calcular propina y total a pagar
     2. Calcular total a pagar divido entre varias personas
-    3. Salir
+    3. Acceder al registro de datos
+    4. Salir
     =============================================    """)
     while True:
         try:
-            options = int(input("    Por favor, elige una opción (1-3): " ))
+            options = int(input("    Por favor, elige una opción (1-4): " ))
             return options
         
         except ValueError:
