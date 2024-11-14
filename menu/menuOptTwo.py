@@ -1,53 +1,60 @@
-from logica.formulas import calcular_propina,calcular_total_con_propina
+from logica.formulas import   calcular_propina, calcular_total_con_propina,dividir_total_personas
+
 import os
 import requests
-import json
 import time
 import keyboard
 
-def desingMenuOptOne():
+def desingMenuOptTwo():
     while True:
         id_actual = 0
-        url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/'
+        url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD'
         responseid = requests.get(url)
         
         if responseid.status_code == 200:
             data = responseid.json()  # Obtener el JSON de la respuesta
             if data:
-                
+          
                 id_actual = int(data[-1]['id'])  # Acceder al ulrimo elemento y obtener el 'id'
-                                
                 if id_actual > 0:
-                    id_pos = id_actual + 1
-                
+                    id_pos = id_actual + 1 
+            
             else:
-                id_pos = 1               
-                
+                id_pos = 1 
         else:
             print('Error al obtener los datos.')
 
         print(f"""
     =============================================
-                Cálculo de Propina 
-    =============================================      
-               Factura # {id_pos} Prop Norm
+        Dividir Cuenta entre Varias Personas
+    =============================================
+            Factura # {id_pos} Prop Div
               """)
-
         try:
-            
-            total = float(input(f"    Ingrese el monto total de la cuenta: $"))
-            
-            if total < 0:
+            total = float(input("    Ingrese el monto total de la cuenta: $"))
+
+            if total < 0: 
                 raise ValueError("    El monto no puede ser negativo.")
-            #--------------------
-            porcentaje = int(input("    Ingrese el porcentaje de propina (por ejemplo: 10%, 15%, 20 %): "))
-                 
-            if porcentaje < 0:
+
+            #---------------
+            porcentaje = int(input("    Ingrese el porcentaje de propina (por ejemplo: 15): "))
+
+            if porcentaje < 0: 
                 raise ValueError("    El monto no puede ser negativo.")
-            #--------------------
-           
+            #---------------
+
+            persona =  int(input("    Ingrese el número de personas: "))
+
+            if persona < 1: 
+                raise ValueError("    El monto no puede ser menor a 1.")
+
+            
             propina = calcular_propina(total, porcentaje)
-            total_con_propina = calcular_total_con_propina(total, propina)
+
+
+            totalMasPropina = calcular_total_con_propina(total,propina)
+            
+            totalPorPersona = dividir_total_personas(total,persona) + (propina/persona)
 
 
             # Hacer la solicitud put
@@ -56,23 +63,25 @@ def desingMenuOptOne():
                 
                 "monto": total,
                 "porcentaje" : porcentaje,
-                "propina" : propina ,
-                "totalMasPropina" : total_con_propina
-
+                "personas" : persona ,
+                "propina" : propina,
+                "totalPorPersona": totalPorPersona
                 }
 
             
 
-            url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/'
+            url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD'
             response = requests.post(url , headers=headers,json=data)
-            
-            print(f"""      
+
+
+            print(f"""             
     =============================================
     La propina calculada es: ${propina}
-    El total a pagar es: ${total_con_propina}
+    El total a pagar es: $___{totalMasPropina}
+    Monto por persona: $___{totalPorPersona}
     =============================================
-    
-    Respuesta del servidor """)
+            """)
+
             time.sleep(1)
             print("\n    ",response)
             # Comprobar el estado de la respuesta
@@ -80,21 +89,16 @@ def desingMenuOptOne():
                 print('    Recurso actualizado  con éxito\n')
             else:
                 print(f'    Error al actualizar el recurso: {response.status_code}\n')
-            
-            
-            
-            options = str(input("    ¿Deseas calcular nuevamente? (S/N): "))
-            
-            if options.lower() == "s":
-                # Limpiar la pantalla (compatible con Windows y Unix)
+
+            options = str(input("¿Deseas calcular nuevamente? (S/N)"))
+
+            if options.lower == "s" :
                 os.system("cls" if os.name == "nt" else "clear")
             else:
                 os.system("cls" if os.name == "nt" else "clear")
-                break
-
-        
+                break    
         except ValueError as e:
             print(f"Error: {e}. Datos no válidos.")
         except KeyboardInterrupt:
-            print("\nInterrupción detectada. Terminando ejecución.")
-            break  # Esto terminará el ciclo mientras
+            pass
+        

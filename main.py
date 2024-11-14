@@ -1,6 +1,6 @@
 from menu.principalMenu import desingMenuPrincipal
 from menu.menuOptOne import desingMenuOptOne
-
+from menu.menuOptTwo import desingMenuOptTwo
 
 print("Simulador de propinas")
 
@@ -11,9 +11,8 @@ while True:
         desingMenuOptOne()
         
     if awnser == 2:
-        print("ok")
-        break
-    
+        desingMenuOptTwo()
+        
     if awnser == 3:
         print("ok")
         break
