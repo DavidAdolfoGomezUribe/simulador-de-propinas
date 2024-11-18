@@ -30,7 +30,8 @@ def desingDataOne():
                 
                 if options == 1:
                     while True:                 
-                        print(f"""  
+                        try:
+                            print(f"""  
     =============================================
             Bases De Datos Propina Normal
     =============================================
@@ -40,89 +41,100 @@ def desingDataOne():
     4. Eliminar
     5. Regresar al menu anterior                             
     =============================================    """)
-                        awnser = int(input("    Por favor, elige una opción (1-4): " ))
-                        print("")
-                        if awnser == 1:
-                            url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/'
-                            response = requests.get(url)
-                            data = response.json()
-                            df = pd.DataFrame(data)
-                            df = df.sort_values(by="id")
-                                            
-                            print(f"\n{df}\n")
+                            awnser = int(input("    Por favor, elige una opción (1-4): " ))
+                            print("")
 
-                    
-                        if awnser == 2:
-                            while True:
-                                manual_id = int(input("    Coloque el id (numero de factura) que desee editar: "))
-                                
-                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
+                            if awnser <=0 :
+                                print("        Numeros negativos no son validos")
+                                raise ValueError
+
+                            if awnser == 1:
+                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/'
                                 response = requests.get(url)
-                                print("\n   ",response.text)
-
-                                variable = int(input(f"""    Este es el dato que quieres editar? 
-    1) si 2) no    """))
-                                if variable == 1:
-                                    total = int(input("    Total :"))
-                                    porcentaje = int(input("    Porcentaje :"))
-                                    propina = int(input("    Propina :"))
-                                    total_con_propina = int(input("    Total mas propina :"))
+                                data = response.json()
+                                df = pd.DataFrame(data)
+                                df = df.sort_values(by="id")
                                                 
+                                print(f"\n{df}\n")
 
-                                    headers = {"Content-Type": "application/json"}
-                                    data ={
+                        
+                            if awnser == 2:
+                                while True:
+                                    manual_id = int(input("    Coloque el id (numero de factura) que desee editar: "))
+                                    
+                                    url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
+                                    response = requests.get(url)
+                                    print("\n   ",response.text)
+
+                                    variable = int(input(f"""    Este es el dato que quieres editar? 
+        1) si 2) no    """))
+                                    if variable == 1:
+                                        total = int(input("    Total :"))
+                                        porcentaje = int(input("    Porcentaje :"))
+                                        propina = int(input("    Propina :"))
+                                        total_con_propina = int(input("    Total mas propina :"))
+                                                    
+
+                                        headers = {"Content-Type": "application/json"}
+                                        data ={
+                                            
+                                            "monto": total,
+                                            "porcentaje" : porcentaje,
+                                            "propina" : propina ,
+                                            "totalMasPropina" : total_con_propina
+
+                                            }
+                                        url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
                                         
-                                        "monto": total,
-                                        "porcentaje" : porcentaje,
-                                        "propina" : propina ,
-                                        "totalMasPropina" : total_con_propina
+                                        response = requests.put(url , headers=headers,json=data)
+                                        break
+                                    else:
+                                        pass
 
-                                        }
+
+                            if awnser == 3:
+                                while True:    
+                                    manual_id = int(input("    Coloque el id (numero de factura) que desee consultar: "))
+                                        
+                                    url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
+                                    response = requests.get(url)
+                                    print("\n   ",response.text)
+                                    
+                                    variable = int(input(f"""    Desea consultar otra factura? 
+        1) si 2) no    """))
+                                    if variable == 1:
+                                        pass
+                                    else:
+                                        break
+                            
+                            if awnser == 4:
+                                while True:
+                                    manual_id = int(input("    Coloque el id (numero de factura) que desee eliminar: "))
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
                                     
-                                    response = requests.put(url , headers=headers,json=data)
-                                    break
-                                else:
-                                    pass
-
-
-                        if awnser == 3:
-                            while True:    
-                                manual_id = int(input("    Coloque el id (numero de factura) que desee consultar: "))
+                                    response = requests.get(url)
+                                    print("\n   ",response.text)
                                     
-                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
-                                response = requests.get(url)
-                                print("\n   ",response.text)
-                                
-                                variable = int(input(f"""    Desea consultar otra factura? 
-    1) si 2) no    """))
-                                if variable == 1:
-                                    pass
-                                else:
-                                    break
-                        
-                        if awnser == 4:
-                            while True:
-                                manual_id = int(input("    Coloque el id (numero de factura) que desee eliminar: "))
-                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
-                                
-                                response = requests.get(url)
-                                print("\n   ",response.text)
-                                
-                                variable = int(input(f"""    Desea eliminar esta factura? 
-    1) si 2) no    """))
-                                if variable == 1:
-                                    response = requests.delete(url)
-                                    break
-                                else:
-                                    break
-               
-                        if awnser == 5 :
-                            break
+                                    variable = int(input(f"""    Desea eliminar esta factura? 
+        1) si 2) no (1-2):   """))
+                                    if variable == 1:
+                                        response = requests.delete(url)
+                                        break
+                                    else:
+                                        break
+                
+                            if awnser == 5 :
+                                break
 
+                        except ValueError:
+                            print("\n    Porfavor entre un valor correcto para las opciones\n")
+                            time.sleep(1)
+            
+                
                 if options == 2:
-                    while True:                 
-                        print(f"""  
+                    while True:
+                        try:                     
+                            print(f"""  
     =============================================
             Bases De Datos Propina Normal
     =============================================
@@ -132,92 +144,101 @@ def desingDataOne():
     4. Eliminar
     5. Regresar al menu anterior   
     =============================================    """)
-                        awnser = int(input("    Por favor, elige una opción (1-4): " ))
-                        print("")
-                        if awnser == 1:
-                            url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/'
-                            response = requests.get(url)
-                            data = response.json()
-                            df = pd.DataFrame(data)
-                            df = df.sort_values(by="id")
-                                            
-                            print(f"\n{df}\n")
+                            awnser = int(input("    Por favor, elige una opción (1-4): " ))
+                            print("")
+                           
+                            if awnser <=0 :
+                                print("        Numeros negativos no son validos")
+                                raise ValueError
 
-                        
-                        if awnser == 2:
-                            while True:
-                                manual_id = int(input("    Coloque el id (numero de factura) que desee editar: "))
-                                
-                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
+                            if awnser == 1:
+                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/'
                                 response = requests.get(url)
-                                print("\n   ",response.text)
-
-                                variable = int(input(f"""    Este es el dato que quieres editar? 
-    1) si 2) no    """))
-                                if variable == 1:
-                                    total = int(input("    Total :"))
-                                    porcentaje = int(input("    Porcentaje :"))
-                                    personas = int(input("    Personas :"))
-                                    propina = int(input("    Propina :"))
-                                    totalPorPersona = int(input("    Total mas propina :"))
+                                data = response.json()
+                                df = pd.DataFrame(data)
+                                df = df.sort_values(by="id")
                                                 
+                                print(f"\n{df}\n")
 
-                                    headers = {"Content-Type": "application/json"}
-                                    data ={
+                            
+                            if awnser == 2:
+                                while True:
+                                    manual_id = int(input("    Coloque el id (numero de factura) que desee editar: "))
+                                    
+                                    url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
+                                    response = requests.get(url)
+                                    print("\n   ",response.text)
+
+                                    variable = int(input(f"""    Este es el dato que quieres editar? 
+        1) si 2) no    """))
+                                    if variable == 1:
+                                        total = int(input("    Total :"))
+                                        porcentaje = int(input("    Porcentaje :"))
+                                        personas = int(input("    Personas :"))
+                                        propina = int(input("    Propina :"))
+                                        totalPorPersona = int(input("    Total mas propina :"))
+                                                    
+
+                                        headers = {"Content-Type": "application/json"}
+                                        data ={
+                                            
+                                            "monto": total,
+                                            "porcentaje" : porcentaje,
+                                            "personas":personas,
+                                            "propina" : propina ,
+                                            "totalPorPersona" : totalPorPersona
+
+                                            }
+                                        url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
                                         
-                                        "monto": total,
-                                        "porcentaje" : porcentaje,
-                                        "personas":personas,
-                                        "propina" : propina ,
-                                        "totalPorPersona" : totalPorPersona
+                                        response = requests.put(url , headers=headers,json=data)
+                                        break
+                                    else:
+                                        pass
 
-                                        }
+                            
+                            if awnser == 3:
+                                while True:    
+                                    manual_id = int(input("    Coloque el id (numero de factura) que desee consultar: "))
+                                        
+                                    url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
+                                    response = requests.get(url)
+                                    print("\n   ",response.text)
+                                    
+                                    variable = int(input(f"""    Desea consultar otra factura? 
+        1) si 2) no    """))
+                                    if variable == 1:
+                                        pass
+                                    else:
+                                        break                    
+
+                            if awnser == 4:
+                                while True:
+                                    manual_id = int(input("    Coloque el id (numero de factura) que desee eliminar: "))
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
                                     
-                                    response = requests.put(url , headers=headers,json=data)
-                                    break
-                                else:
-                                    pass
-
-                        
-                        if awnser == 3:
-                            while True:    
-                                manual_id = int(input("    Coloque el id (numero de factura) que desee consultar: "))
+                                    response = requests.get(url)
+                                    print("\n   ",response.text)
                                     
-                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
-                                response = requests.get(url)
-                                print("\n   ",response.text)
-                                
-                                variable = int(input(f"""    Desea consultar otra factura? 
-    1) si 2) no    """))
-                                if variable == 1:
-                                    pass
-                                else:
-                                    break                    
+                                    variable = int(input(f"""    Desea eliminar esta factura? 
+    1) si 2) no (1-2)    """))
+                                    if variable == 1:
+                                        response = requests.delete(url)
+                                        break
+                                    else:
+                                        break                
 
-                        if awnser == 4:
-                            while True:
-                                manual_id = int(input("    Coloque el id (numero de factura) que desee eliminar: "))
-                                url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
-                                
-                                response = requests.get(url)
-                                print("\n   ",response.text)
-                                
-                                variable = int(input(f"""    Desea eliminar esta factura? 
-    1) si 2) no    """))
-                                if variable == 1:
-                                    response = requests.delete(url)
-                                    break
-                                else:
-                                    break                
-
-                        if awnser == 5:
-                            break
-             
-
-                if options == 3:
-                    break
+                            if awnser == 5:
+                                break
                 
+                        except ValueError:
+                            print("\n    Porfavor entre un valor correcto para las opciones\n")
+                            time.sleep(1)
+            
+
+                    if options == 3:
+                        break
+                    
             except ValueError:
                 print("\n    Porfavor entre un valor correcto para las opciones\n")
                 time.sleep(1)
