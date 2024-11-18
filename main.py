@@ -20,5 +20,6 @@ while True:
     if awnser == 4:
         print("ok")
         break
+     
     
     
