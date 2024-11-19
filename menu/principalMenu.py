@@ -2,7 +2,8 @@ import time
 
 
 def desingMenuPrincipal():
-    print(f"""          
+    while True:
+        print(f"""          
                    )
                       (
                          )
@@ -18,8 +19,8 @@ def desingMenuPrincipal():
     2. Calcular total a pagar divido entre varias personas
     3. Acceder al registro de datos
     4. Salir
-    =============================================    """)
-    while True:
+    =============================================    
+    """)
         try:
             options = int(input("    Por favor, elige una opción (1-4): " ))
             return options

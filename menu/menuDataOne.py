@@ -41,7 +41,7 @@ def desingDataOne():
     4. Eliminar
     5. Regresar al menu anterior                             
     =============================================    """)
-                            awnser = int(input("    Por favor, elige una opción (1-4): " ))
+                            awnser = int(input("    Por favor, elige una opción (1-5): " ))
                             print("")
 
                             if awnser <=0 :
@@ -53,9 +53,9 @@ def desingDataOne():
                                 response = requests.get(url)
                                 data = response.json()
                                 df = pd.DataFrame(data)
-                                df = df.sort_values(by="id")
+                                
                                                 
-                                print(f"\n{df}\n")
+                                print(f"    \n{df}\n")
 
                         
                             if awnser == 2:
@@ -64,7 +64,10 @@ def desingDataOne():
                                     
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
                                     response = requests.get(url)
-                                    print("\n   ",response.text)
+                                    data= response.json()
+                                    df = pd.DataFrame([data])
+
+                                    print(f"    \n{df}\n")
 
                                     variable = int(input(f"""    Este es el dato que quieres editar? 
         1) si 2) no    """))
@@ -84,9 +87,14 @@ def desingDataOne():
                                             "totalMasPropina" : total_con_propina
 
                                             }
+                                        
+                                        
                                         url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
                                         
+
                                         response = requests.put(url , headers=headers,json=data)
+
+                                        print("    Datos actualizados con exito")
                                         break
                                     else:
                                         pass
@@ -98,7 +106,11 @@ def desingDataOne():
                                         
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
                                     response = requests.get(url)
-                                    print("\n   ",response.text)
+                                    data = response.json()
+                                    df = pd.DataFrame([data])
+
+                                    print(f"\n{df}\n")
+
                                     
                                     variable = int(input(f"""    Desea consultar otra factura? 
         1) si 2) no    """))
@@ -113,7 +125,11 @@ def desingDataOne():
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propina/{manual_id}'
                                     
                                     response = requests.get(url)
-                                    print("\n   ",response.text)
+                                    data = response.json()
+                                    df = pd.DataFrame([data])
+
+                                    print(f"\n{df}\n")
+
                                     
                                     variable = int(input(f"""    Desea eliminar esta factura? 
         1) si 2) no (1-2):   """))
@@ -129,9 +145,13 @@ def desingDataOne():
                         except ValueError:
                             print("\n    Porfavor entre un valor correcto para las opciones\n")
                             time.sleep(1)
+
+                        except KeyboardInterrupt:
+                            print("\n    Porfavor entre un valor correcto para las opciones\n")
+                            time.sleep(1)
             
                 
-                if options == 2:
+                elif options == 2:
                     while True:
                         try:                     
                             print(f"""  
@@ -144,7 +164,7 @@ def desingDataOne():
     4. Eliminar
     5. Regresar al menu anterior   
     =============================================    """)
-                            awnser = int(input("    Por favor, elige una opción (1-4): " ))
+                            awnser = int(input("    Por favor, elige una opción (1-5): " ))
                             print("")
                            
                             if awnser <=0 :
@@ -156,7 +176,8 @@ def desingDataOne():
                                 response = requests.get(url)
                                 data = response.json()
                                 df = pd.DataFrame(data)
-                                df = df.sort_values(by="id")
+
+                                    
                                                 
                                 print(f"\n{df}\n")
 
@@ -167,7 +188,11 @@ def desingDataOne():
                                     
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
                                     response = requests.get(url)
-                                    print("\n   ",response.text)
+                                    data = response.json()
+                                    df = pd.DataFrame([data])
+
+                                    print(f"\n{df}\n")
+
 
                                     variable = int(input(f"""    Este es el dato que quieres editar? 
         1) si 2) no    """))
@@ -192,6 +217,7 @@ def desingDataOne():
                                         url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
                                         
                                         response = requests.put(url , headers=headers,json=data)
+
                                         break
                                     else:
                                         pass
@@ -203,7 +229,13 @@ def desingDataOne():
                                         
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
                                     response = requests.get(url)
-                                    print("\n   ",response.text)
+                                    data = response.json()
+                                    df = pd.DataFrame([data])
+
+                                    print(f"\n{df}\n")
+
+
+
                                     
                                     variable = int(input(f"""    Desea consultar otra factura? 
         1) si 2) no    """))
@@ -218,7 +250,11 @@ def desingDataOne():
                                     url =  f'https://6734e08c5995834c8a9133af.mockapi.io/propinaD/{manual_id}'
                                     
                                     response = requests.get(url)
-                                    print("\n   ",response.text)
+                                    data = response.json()
+                                    df = pd.DataFrame([data])
+
+                                    print(f"\n{df}\n")
+
                                     
                                     variable = int(input(f"""    Desea eliminar esta factura? 
     1) si 2) no (1-2)    """))
@@ -234,12 +270,26 @@ def desingDataOne():
                         except ValueError:
                             print("\n    Porfavor entre un valor correcto para las opciones\n")
                             time.sleep(1)
-            
+
+                        except KeyboardInterrupt:
+                            print("\n    Porfavor entre un valor correcto para las opciones\n")
+                            time.sleep(1)
+
 
                     if options == 3:
                         break
-                    
+
+                elif options == 3:
+                    break    
+                else :
+                    print("\n    No es un numero valido\n")
+                    time.sleep(1) 
+            
             except ValueError:
+                print("\n    Porfavor entre un valor correcto para las opciones\n")
+                time.sleep(1)
+            
+            except KeyboardInterrupt:
                 print("\n    Porfavor entre un valor correcto para las opciones\n")
                 time.sleep(1)
             

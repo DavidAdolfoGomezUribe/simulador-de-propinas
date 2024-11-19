@@ -74,14 +74,12 @@ def desingMenuOptOne():
     
     Respuesta del servidor """)
             time.sleep(1)
-            print("\n    ",response)
+            print("\n    ")
             # Comprobar el estado de la respuesta
             if response.status_code == 200 or response.status_code == 201 :
-                print('    Recurso actualizado  con éxito\n')
+                print('    Factura subida con exito\n')
             else:
-                print(f'    Error al actualizar el recurso: {response.status_code}\n')
-            
-            
+                print(f'    Error al actualizar los datos de la factura: {response.status_code}\n')
             
             options = str(input("    ¿Deseas calcular nuevamente? (S/N): "))
             
@@ -96,5 +94,6 @@ def desingMenuOptOne():
         except ValueError as e:
             print(f"Error: {e}. Datos no válidos.")
         except KeyboardInterrupt:
-            print("\nInterrupción detectada. Terminando ejecución.")
-            break  # Esto terminará el ciclo mientras
+            print("\n    Porfavor entre un valor correcto para las opciones\n")
+            time.sleep(1)
+            
